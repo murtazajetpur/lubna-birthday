@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#f7e9f1" />
+  <title>Happy Birthday Lubna ✨</title>
+  <style>
+    :root{
+      --bg1:#fff7fb;
+      --bg2:#f6f1ff;
+      --cream:#fff6ea;
+      --pink:#f7cfe3;
+      --lav:#d9d2ff;
+      --ink:#1b1b1f;
+      --muted:#5b5b66;
+      --card: rgba(255,255,255,.72);
+      --stroke: rgba(20,20,30,.12);
+      --shadow: 0 18px 60px rgba(30,30,60,.12);
+      --radius: 22px;
+      --radius2: 28px;
+      --max: 1080px;
+      --pad: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(900px 600px at 15% 10%, rgba(247,207,227,.55), transparent 60%),
+        radial-gradient(900px 600px at 85% 30%, rgba(217,210,255,.55), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* Scroll progress */
+    .progress{
+      position:fixed; inset:0 0 auto 0;
+      height:3px; z-index:50;
+      background: rgba(255,255,255,.35);
+      backdrop-filter: blur(10px);
+    }
+    .progress > span{
+      display:block; height:100%; width:0%;
+      background: linear-gradient(90deg, rgba(247,207,227,.95), rgba(217,210,255,.95));
+      box-shadow: 0 0 18px rgba(217,210,255,.55);
+      transition: width .08s linear;
+    }
+
+    /* Top floating elements */
+    .top-actions{
+      position:fixed; right:14px; bottom:14px; z-index:40;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .fab{
+      appearance:none; border:1px solid var(--stroke);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 12px 14px;
+      font-weight: 650;
+      cursor:pointer;
+      transform: translateZ(0);
+      transition: transform .15s ease, opacity .2s ease;
+      opacity:0;
+      pointer-events:none;
+    }
+    .fab.show{opacity:1; pointer-events:auto}
+    .fab:active{transform: scale(.98)}
+    .fab small{display:block; font-weight:600; color:var(--muted)}
+    .fab .arrow{font-size:14px; margin-right:6px}
+
+    /* Layout */
+    .wrap{
+      width:min(var(--max), 100%);
+      margin:0 auto;
+      padding: 0 var(--pad);
+    }
+    section{
+      padding: 70px 0;
+    }
+
+    /* Common cards */
+    .card{
+      border:1px solid var(--stroke);
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+    }
+    .soft{
+      background:
+        radial-gradient(800px 350px at 10% 0%, rgba(247,207,227,.55), transparent 55%),
+        radial-gradient(800px 350px at 90% 20%, rgba(217,210,255,.55), transparent 55%),
+        rgba(255,255,255,.55);
+    }
+
+    /* Headings */
+    h1,h2,h3{margin:0}
+    h1{
+      font-size: clamp(34px, 5.5vw, 60px);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+    h2{
+      font-size: clamp(22px, 3.4vw, 34px);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    .kicker{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.6);
+      font-weight: 650;
+      color: rgba(27,27,31,.85);
+      letter-spacing: .02em;
+    }
+    .kicker i{
+      width:10px; height:10px; border-radius:50%;
+      background: linear-gradient(90deg, var(--pink), var(--lav));
+      box-shadow: 0 0 18px rgba(217,210,255,.6);
+    }
+
+    /* Buttons */
+    .btn{
+      appearance:none;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(10px);
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 700;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+      box-shadow: 0 12px 40px rgba(30,30,60,.10);
+      color: var(--ink);
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 18px 60px rgba(30,30,60,.13);
+      background: rgba(255,255,255,.9);
+    }
+    .btn:active{transform: translateY(0px) scale(.99)}
+    .btn.primary{
+      border-color: rgba(247,207,227,.55);
+      background: linear-gradient(90deg, rgba(247,207,227,.95), rgba(217,210,255,.95));
+    }
+
+    .input{
+      width:100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.82);
+      outline:none;
+      font-size: 16px;
+    }
+    .input:focus{
+      border-color: rgba(217,210,255,.65);
+      box-shadow: 0 0 0 4px rgba(217,210,255,.22);
+    }
+
+    /* Password Gate */
+    .gate{
+      position:fixed; inset:0; z-index:60;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 20px;
+      background:
+        radial-gradient(900px 600px at 20% 20%, rgba(247,207,227,.65), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(217,210,255,.65), transparent 60%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+    .gate-inner{
+      width:min(520px, 100%);
+      padding: 20px;
+    }
+    .gate-card{
+      padding: 22px;
+      border-radius: 28px;
+    }
+    .gate-title{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      margin-bottom: 10px;
+    }
+    .lock{
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.7);
+      display:grid; place-items:center;
+      box-shadow: 0 18px 55px rgba(30,30,60,.10);
+    }
+    .subtle{
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .gate-form{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .gate-row{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items:center;
+    }
+    .hint{
+      margin-top: 10px;
+      font-size: 13px;
+      color: rgba(91,91,102,.9);
+      min-height: 18px;
+    }
+    .fade-out{
+      animation: fadeOut .55s ease forwards;
+    }
+    @keyframes fadeOut{
+      to { opacity:0; transform: translateY(6px); pointer-events:none; }
+    }
+
+    /* Hero */
+    .hero{
+      position:relative;
+      padding-top: 90px;
+      padding-bottom: 50px;
+    }
+    .hero-card{
+      padding: 28px 22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-bg{
+      position:absolute; inset:-80px;
+      background:
+        radial-gradient(600px 260px at 18% 20%, rgba(247,207,227,.85), transparent 60%),
+        radial-gradient(680px 280px at 82% 38%, rgba(217,210,255,.85), transparent 62%),
+        radial-gradient(520px 260px at 42% 92%, rgba(255,246,234,.85), transparent 62%);
+      filter: blur(10px);
+      opacity:.9;
+      animation: floatBg 10s ease-in-out infinite alternate;
+    }
+    @keyframes floatBg{
+      0%{ transform: translate3d(0,0,0) scale(1.02); }
+      100%{ transform: translate3d(10px,-8px,0) scale(1.04); }
+    }
+    .particles{
+      position:absolute; inset:0;
+      pointer-events:none;
+      opacity:.55;
+    }
+    .particles span{
+      position:absolute;
+      width:8px; height:8px;
+      border-radius:999px;
+      background: linear-gradient(90deg, rgba(247,207,227,.9), rgba(217,210,255,.9));
+      filter: blur(.2px);
+      animation: drift 10s linear infinite;
+    }
+    @keyframes drift{
+      0%{ transform: translate3d(0,0,0); opacity: .25; }
+      20%{ opacity:.65; }
+      100%{ transform: translate3d(0,-220px,0); opacity:0; }
+    }
+    .hero-content{
+      position:relative;
+      display:grid;
+      gap: 12px;
+      max-width: 720px;
+    }
+    .hero-sub{
+      font-size: clamp(15px, 2.4vw, 18px);
+      color: rgba(60,60,70,.92);
+      margin-top: 8px;
+    }
+    .scroll-cue{
+      margin-top: 18px;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      color: rgba(60,60,70,.86);
+      font-weight: 700;
+      user-select:none;
+    }
+    .scroll-dot{
+      width: 28px; height: 44px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.6);
+      display:grid; place-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .scroll-dot::after{
+      content:"";
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(27,27,31,.55);
+      position:absolute;
+      top: 12px;
+      animation: bob 1.3s ease-in-out infinite;
+    }
+    @keyframes bob{
+      0%,100%{ transform: translateY(0); opacity:.6}
+      50%{ transform: translateY(10px); opacity:.9}
+    }
+
+    /* Grids */
+    .grid{
+      display:grid;
+      gap: 14px;
+    }
+    .grid.two{ grid-template-columns: 1fr; }
+    @media (min-width: 860px){
+      .grid.two{ grid-template-columns: 1.2fr .8fr; align-items: start; }
+    }
+
+    /* Countdown cards */
+    .timer{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (min-width: 520px){
+      .timer{ grid-template-columns: repeat(4, 1fr); }
+    }
+    .tcard{
+      padding: 14px 14px;
+      text-align:center;
+      border-radius: 18px;
+    }
+    .tval{
+      font-size: 28px;
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+    .tlabel{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 3px;
+      letter-spacing:.08em;
+      text-transform: uppercase;
+    }
+    .tiny{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(91,91,102,.92);
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.55);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Reveal card */
+    .reveal{
+      padding: 18px;
+      border-radius: 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .reveal .msg{
+      font-size: 18px;
+      line-height: 1.55;
+      color: rgba(27,27,31,.92);
+      font-weight: 650;
+    }
+    .blurred{
+      filter: blur(10px);
+      opacity:.65;
+      user-select:none;
+    }
+    .locked-badge{
+      position:absolute; top: 14px; right: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.7);
+      font-weight: 750;
+      font-size: 12px;
+      display:flex; align-items:center; gap:8px;
+    }
+
+    /* Memory lane */
+    .polaroid-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (min-width: 720px){
+      .polaroid-grid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    .polaroid{
+      padding: 10px;
+      border-radius: 22px;
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .2s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .polaroid:hover{ transform: translateY(-2px) rotate(-.2deg); }
+    .photo{
+      width:100%;
+      aspect-ratio: 4/5;
+      border-radius: 18px;
+      border:1px solid var(--stroke);
+      object-fit: cover;
+      background: rgba(255,255,255,.6);
+      display:block;
+    }
+    .cap{
+      margin-top: 10px;
+      font-weight: 750;
+      color: rgba(27,27,31,.85);
+      font-size: 13px;
+      line-height: 1.35;
+      min-height: 2.8em;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      background: rgba(20,20,25,.45);
+      backdrop-filter: blur(10px);
+      z-index: 70;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+    }
+    .modal.open{ display:flex; }
+    .modal-inner{
+      width:min(920px, 100%);
+      border-radius: 28px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.25);
+      box-shadow: 0 30px 120px rgba(0,0,0,.25);
+      background: rgba(255,255,255,.75);
+      position:relative;
+    }
+    .modal-img{
+      width:100%;
+      height: min(70vh, 560px);
+      object-fit: cover;
+      display:block;
+    }
+    .modal-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding: 12px 14px;
+      border-top:1px solid rgba(20,20,30,.12);
+      background: rgba(255,255,255,.78);
+    }
+    .modal-cap{
+      font-weight: 750;
+      color: rgba(27,27,31,.86);
+      font-size: 14px;
+    }
+    .iconbtn{
+      border:1px solid rgba(20,20,30,.12);
+      background: rgba(255,255,255,.75);
+      border-radius: 999px;
+      padding: 10px 12px;
+      cursor:pointer;
+      font-weight: 800;
+    }
+
+    /* Timeline */
+    .timeline{
+      margin-top: 14px;
+      position:relative;
+      padding-left: 18px;
+    }
+    .timeline::before{
+      content:"";
+      position:absolute;
+      left: 8px; top: 6px; bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(247,207,227,.9), rgba(217,210,255,.9));
+      border-radius: 999px;
+      opacity:.85;
+    }
+    .step{
+      position:relative;
+      padding: 12px 12px 12px 16px;
+      margin: 10px 0;
+      border-radius: 18px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.62);
+    }
+    .step::before{
+      content:"";
+      position:absolute;
+      left: -2px; top: 18px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, rgba(247,207,227,.95), rgba(217,210,255,.95));
+      box-shadow: 0 0 18px rgba(217,210,255,.45);
+      border: 2px solid rgba(255,255,255,.9);
+    }
+    .step .date{
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(91,91,102,.9);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .step .title{
+      font-size: 16px;
+      font-weight: 850;
+      margin-top: 4px;
+      color: rgba(27,27,31,.9);
+    }
+    .step .desc{
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* Music */
+    .music{
+      padding: 18px;
+      border-radius: 22px;
+      display:grid;
+      gap: 10px;
+    }
+    .music-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .music-note{
+      font-weight: 750;
+      color: rgba(27,27,31,.86);
+    }
+    .music-status{
+      font-size: 13px;
+      color: rgba(91,91,102,.95);
+      min-height: 18px;
+    }
+
+    /* Click-for-emotion overlay */
+    .cinema{
+      position:fixed; inset:0; z-index: 80;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      background:
+        radial-gradient(900px 600px at 20% 20%, rgba(247,207,227,.28), transparent 62%),
+        radial-gradient(900px 600px at 80% 30%, rgba(217,210,255,.28), transparent 62%),
+        rgba(15,15,20,.55);
+      backdrop-filter: blur(12px);
+    }
+    .cinema.open{ display:flex; }
+    .cinema-card{
+      width:min(720px, 100%);
+      padding: 22px;
+      border-radius: 28px;
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.12);
+      color: rgba(255,255,255,.92);
+      box-shadow: 0 40px 120px rgba(0,0,0,.35);
+      position:relative;
+    }
+    .cinema-card h3{
+      font-size: 18px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      opacity:.85;
+    }
+    .type{
+      margin-top: 12px;
+      font-size: clamp(20px, 3vw, 30px);
+      font-weight: 850;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      min-height: 3.6em;
+    }
+    .cinema-actions{
+      margin-top: 14px;
+      display:flex; justify-content:space-between; align-items:center; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .cinema-actions .note{
+      font-size: 14px; opacity:.85;
+    }
+    .cinema-actions .btn{
+      color: rgba(20,20,25,.9);
+      background: rgba(255,255,255,.82);
+    }
+
+    /* Future cards */
+    .future{
+      display:grid;
+      gap: 12px;
+      margin-top: 14px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 740px){
+      .future{ grid-template-columns: repeat(5, 1fr); }
+    }
+    .fcard{
+      padding: 14px;
+      border-radius: 20px;
+      text-align:center;
+      font-weight: 850;
+      color: rgba(27,27,31,.86);
+      background: rgba(255,255,255,.62);
+      border:1px solid var(--stroke);
+    }
+
+    /* Finale */
+    .finale{
+      padding: 22px;
+      border-radius: 28px;
+      text-align:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .finale h2{ margin-bottom: 10px; }
+    .choices{
+      margin-top: 14px;
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position:relative;
+      min-height: 56px;
+    }
+    .choice-wrap{
+      position:relative;
+      width:min(420px, 100%);
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .signature{
+      margin-top: 18px;
+      font-weight: 750;
+      color: rgba(27,27,31,.82);
+      white-space: pre-line;
+    }
+    .toast{
+      margin-top: 12px;
+      font-weight: 750;
+      color: rgba(27,27,31,.85);
+      min-height: 22px;
+    }
+
+    /* Confetti (simple) */
+    .confetti{
+      position:absolute; inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      opacity:0;
+      transition: opacity .2s ease;
+    }
+    .confetti.show{ opacity:1; }
+    .confetti i{
+      position:absolute;
+      width: 10px; height: 18px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, rgba(247,207,227,.95), rgba(217,210,255,.95));
+      animation: fall 1.8s linear infinite;
+      opacity:.95;
+    }
+    @keyframes fall{
+      0%{ transform: translateY(-40px) rotate(0deg); opacity:0; }
+      10%{ opacity:1; }
+      100%{ transform: translateY(680px) rotate(240deg); opacity:0; }
+    }
+
+    /* Scroll reveal animation */
+    .reveal-on{
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .reveal-on.in{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    /* Footer spacing */
+    footer{ padding: 30px 0 60px; text-align:center; color: rgba(91,91,102,.9); font-size: 13px; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+      .particles{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+  <!-- Password Gate -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-label="Password gate">
+    <div class="gate-inner">
+      <div class="card gate-card soft">
+        <div class="gate-title">
+          <div>
+            <div class="kicker"><i></i><span>Lubna</span></div>
+            <div class="subtle">A small corner of the internet, made just for you.</div>
+          </div>
+          <div class="lock" aria-hidden="true">🔒</div>
+        </div>
+
+        <form class="gate-form" id="gateForm">
+          <label for="pw" class="subtle" style="margin:0;font-weight:700;">Enter password</label>
+          <div class="gate-row">
+            <input class="input" id="pw" type="password" autocomplete="off" placeholder="Password" aria-label="Password" />
+            <button class="btn primary" type="submit">Enter</button>
+          </div>
+          <div class="hint" id="pwHint" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="top-actions">
+    <button class="fab" id="backTop" type="button" aria-label="Back to top">
+      <span><span class="arrow">↑</span>Top</span>
+      <small>Back to start</small>
+    </button>
+  </div>
+
+  <!-- Main -->
+  <main id="main" style="opacity:0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease;">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="card hero-card soft reveal-on">
+          <div class="hero-bg" aria-hidden="true"></div>
+
+          <div class="particles" aria-hidden="true" id="particles"></div>
+
+          <div class="hero-content">
+            <span class="kicker"><i></i><span id="ageLine">A little page for you</span></span>
+            <h1>Happy Birthday, Lubna ✨</h1>
+            <p class="hero-sub">30 Jan 1999 — and still the most beautiful timeline I know.</p>
+
+            <div class="scroll-cue" aria-hidden="true">
+              <span class="scroll-dot"></span>
+              <span>Start the journey</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN + REVEAL -->
+    <section>
+      <div class="wrap grid two">
+        <div class="card soft" style="padding:22px;border-radius:28px;" >
+          <div class="reveal-on">
+            <span class="kicker"><i></i><span>Countdown</span></span>
+            <h2 style="margin-top:10px;">Until your day (Dubai time)</h2>
+            <p>Because some moments deserve the right timezone. 💛</p>
+
+            <div class="timer" aria-label="Countdown timer">
+              <div class="card tcard soft">
+                <div class="tval" id="cdDays">--</div>
+                <div class="tlabel">Days</div>
+              </div>
+              <div class="card tcard soft">
+                <div class="tval" id="cdHours">--</div>
+                <div class="tlabel">Hours</div>
+              </div>
+              <div class="card tcard soft">
+                <div class="tval" id="cdMins">--</div>
+                <div class="tlabel">Minutes</div>
+              </div>
+              <div class="card tcard soft">
+                <div class="tval" id="cdSecs">--</div>
+                <div class="tlabel">Seconds</div>
+              </div>
+            </div>
+
+            <div class="tiny">
+              <span class="chip">⏱️ Asia/Dubai</span>
+              <span id="todayLine">Dubai time</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card soft reveal-on" style="padding:22px;border-radius:28px;">
+          <span class="kicker"><i></i><span>Midnight reveal</span></span>
+          <h2 style="margin-top:10px;">A message that unlocks on Jan 30</h2>
+          <p>If it’s not Jan 30 in Dubai yet, it stays a secret.</p>
+
+          <div class="reveal card soft" style="margin-top:14px;">
+            <div class="locked-badge" id="lockBadge">🔒 Locked</div>
+            <div class="msg" id="revealMsg">
+              Happy Birthday, Lubna. You make life feel softer, brighter, and worth celebrating.
+            </div>
+          </div>
+          <p class="tiny" id="revealHint">This will automatically unlock when Dubai date becomes Jan 30.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEMORY LANE -->
+    <section>
+      <div class="wrap">
+        <div class="grid two">
+          <div class="reveal-on">
+            <span class="kicker"><i></i><span>Memory lane</span></span>
+            <h2 style="margin-top:10px;">Little frames I’ll fill with us</h2>
+            <p>For now, placeholders — soon, your favorite photos and the moments we keep.</p>
+          </div>
+          <div class="reveal-on">
+            <div class="card soft" style="padding:16px;border-radius:22px;">
+              <div style="font-weight:850;color:rgba(27,27,31,.86);">Tip</div>
+              <p style="margin-top:6px;">Replace the placeholder images later by updating the array in the JS section (look for <b>photos[]</b> and <b>captions[]</b>).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="polaroid-grid" id="polaroidGrid" aria-label="Photo grid"></div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section>
+      <div class="wrap grid two">
+        <div class="reveal-on">
+          <span class="kicker"><i></i><span>Timeline</span></span>
+          <h2 style="margin-top:10px;">The story of “us”</h2>
+          <p>Not dates and drama — just the chapters that mattered.</p>
+
+          <div class="timeline" aria-label="Timeline of us">
+            <div class="step">
+              <div class="date">Edit date</div>
+              <div class="title">The first hello</div>
+              <div class="desc">The start of something that felt… quietly right.</div>
+            </div>
+            <div class="step">
+              <div class="date">Edit date</div>
+              <div class="title">The first real conversation</div>
+              <div class="desc">Where time stopped being normal.</div>
+            </div>
+            <div class="step">
+              <div class="date">Edit date</div>
+              <div class="title">The day I knew</div>
+              <div class="desc">Not loudly. Just clearly.</div>
+            </div>
+            <div class="step">
+              <div class="date">Edit date</div>
+              <div class="title">A promise</div>
+              <div class="desc">To keep choosing you — even on ordinary days.</div>
+            </div>
+            <div class="step">
+              <div class="date">Edit date</div>
+              <div class="title">A new chapter</div>
+              <div class="desc">Where “us” started feeling like a forever plan.</div>
+            </div>
+            <div class="step">
+              <div class="date">Always</div>
+              <div class="title">Forever loading…</div>
+              <div class="desc">And I’m happy to wait for every page.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal-on">
+          <div class="card music soft" aria-label="Music section">
+            <span class="kicker"><i></i><span>Music & moments</span></span>
+            <h2 style="margin:6px 0 0;">One song. A hundred memories.</h2>
+            <p>Drop a file named <b>song.mp3</b> next to this HTML later (optional).</p>
+
+            <div class="music-row">
+              <button class="btn" id="playBtn" type="button" aria-label="Play or pause music">▶ Play</button>
+              <div class="music-note" id="musicLabel">Ready</div>
+            </div>
+            <div class="music-status" id="musicStatus"></div>
+            <audio id="audio" preload="none">
+              <source src="song.mp3" type="audio/mpeg" />
+            </audio>
+          </div>
+
+          <div class="card soft" style="margin-top:14px; padding:18px; border-radius:22px;">
+            <span class="kicker"><i></i><span>Moment</span></span>
+            <h2 style="margin-top:10px;">A tiny cinematic surprise</h2>
+            <p>Tap the button when you’re ready.</p>
+            <button class="btn primary" id="cinemaBtn" type="button" style="margin-top:12px;">Click here, Lubna</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUTURE -->
+    <section>
+      <div class="wrap">
+        <div class="reveal-on">
+          <span class="kicker"><i></i><span>Future together</span></span>
+          <h2 style="margin-top:10px;">Simple things I want with you</h2>
+          <p>Nothing extra. Just everything that matters.</p>
+        </div>
+
+        <div class="future reveal-on" aria-label="Future vision cards">
+          <div class="fcard card soft">More sunsets.</div>
+          <div class="fcard card soft">More silly laughter.</div>
+          <div class="fcard card soft">More adventures (even small ones).</div>
+          <div class="fcard card soft">A home that feels like us.</div>
+          <div class="fcard card soft">Growing old, still flirting.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINALE -->
+    <section>
+      <div class="wrap">
+        <div class="finale card soft reveal-on">
+          <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+          <span class="kicker"><i></i><span>Finale</span></span>
+          <h2 style="margin-top:10px;">Will you marry me (again)? 💍</h2>
+          <p>Okay, now don’t overthink. Just follow your heart 😄</p>
+
+          <div class="choices">
+            <div class="choice-wrap" id="choiceArea">
+              <button class="btn primary" id="yesBtn" type="button">Yes</button>
+              <button class="btn" id="noBtn" type="button">No</button>
+            </div>
+          </div>
+
+          <div class="toast" id="toast" aria-live="polite"></div>
+
+          <div class="signature">Always yours,&#10;Murtaza</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Built with soft colors, big feelings, and a little bit of magic ✨
+    </footer>
+  </main>
+
+  <!-- Photo Modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <div class="modal-inner">
+      <img class="modal-img" id="modalImg" alt="Expanded photo" />
+      <div class="modal-bar">
+        <div class="modal-cap" id="modalCap"></div>
+        <button class="iconbtn" id="closeModal" type="button" aria-label="Close photo">✕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cinema Overlay -->
+  <div class="cinema" id="cinema" role="dialog" aria-modal="true" aria-label="Cinematic moment">
+    <div class="cinema-card">
+      <h3>Just a moment</h3>
+      <div class="type" id="typeLine"></div>
+
+      <div class="cinema-actions">
+        <div class="note" id="cinemaNote">Scroll for the future →</div>
+        <button class="btn" id="closeCinema" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /********************
+     * Simple helpers
+     ********************/
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+    // Dubai offset is UTC+4 (no DST)
+    const DUBAI_OFFSET_MS = 4 * 60 * 60 * 1000;
+
+    function dubaiNow(){
+      // Create a Date that represents "Dubai wall time" using UTC getters:
+      // by shifting current UTC milliseconds by +4h then reading as UTC.
+      return new Date(Date.now() + DUBAI_OFFSET_MS);
+    }
+
+    function getDubaiParts(){
+      const d = dubaiNow();
+      return {
+        y: d.getUTCFullYear(),
+        m: d.getUTCMonth() + 1, // 1-12
+        d: d.getUTCDate(),
+        hh: d.getUTCHours(),
+        mm: d.getUTCMinutes(),
+        ss: d.getUTCSeconds()
+      };
+    }
+
+    function pad2(n){ return String(n).padStart(2, "0"); }
+
+    function computeAgeDubai(birthY=1999, birthM=1, birthD=30){
+      const now = getDubaiParts();
+      let age = now.y - birthY;
+      // If before birthday in Dubai this year, subtract 1
+      if (now.m < birthM || (now.m === birthM && now.d < birthD)) age -= 1;
+      return age;
+    }
+
+    function nextBirthdayTargetUTC(birthM=1, birthD=30){
+      // Target is Dubai midnight of Jan 30. Convert to UTC timestamp:
+      // Dubai midnight = UTC time minus 4 hours.
+      const now = getDubaiParts();
+      let targetYear = now.y;
+
+      const isAfterOrOn = (now.m > birthM) || (now.m === birthM && now.d >= birthD);
+      // If already on/after birthday date in Dubai, next occurrence is next year
+      if (isAfterOrOn) targetYear += 1;
+
+      // Dubai midnight (00:00) => UTC = (Dubai) - 4 hours
+      const targetUTC = Date.UTC(targetYear, birthM - 1, birthD, 0, 0, 0) - DUBAI_OFFSET_MS;
+      return targetUTC;
+    }
+
+    function isDubaiBirthdayToday(birthM=1, birthD=30){
+      const now = getDubaiParts();
+      return now.m === birthM && now.d === birthD;
+    }
+
+    /********************
+     * Password gate
+     ********************/
+    const gate = $("#gate");
+    const main = $("#main");
+    const gateForm = $("#gateForm");
+    const pw = $("#pw");
+    const pwHint = $("#pwHint");
+    const PASSWORD = "Murtazaisthebest";
+
+    function unlock(){
+      gate.classList.add("fade-out");
+      setTimeout(() => {
+        gate.style.display = "none";
+        main.style.opacity = "1";
+        main.style.transform = "translateY(0)";
+        // Focus for accessibility
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 520);
+    }
+
+    gateForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = (pw.value || "").trim();
+      if (!val){
+        pwHint.textContent = "It’s okay — try the secret again 🙂";
+        return;
+      }
+      if (val === PASSWORD){
+        pwHint.textContent = "Welcome in ✨";
+        unlock();
+      } else {
+        pwHint.textContent = "Hmm… close. Try again 😄";
+        pw.value = "";
+        pw.focus();
+      }
+    });
+
+    /********************
+     * Particles (subtle)
+     ********************/
+    (function initParticles(){
+      const host = $("#particles");
+      if (!host) return;
+
+      const count = 14;
+      for (let i=0;i<count;i++){
+        const s = document.createElement("span");
+        const left = Math.random()*100;
+        const top = 90 + Math.random()*40; // start lower, drift up
+        const dur = 7 + Math.random()*8;
+        const delay = Math.random()*4;
+        const size = 6 + Math.random()*8;
+
+        s.style.left = left + "%";
+        s.style.top = top + "%";
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+        s.style.animationDuration = dur + "s";
+        s.style.animationDelay = (-delay) + "s";
+        s.style.opacity = 0.25 + Math.random()*0.4;
+        host.appendChild(s);
+      }
+    })();
+
+    /********************
+     * Scroll progress + back to top
+     ********************/
+    const progressBar = $("#progressBar");
+    const backTop = $("#backTop");
+
+    function onScroll(){
+      const doc = document.documentElement;
+      const scrollTop = doc.scrollTop || document.body.scrollTop;
+      const height = (doc.scrollHeight - doc.clientHeight) || 1;
+      const pct = Math.max(0, Math.min(1, scrollTop / height));
+      progressBar.style.width = (pct * 100).toFixed(2) + "%";
+
+      if (scrollTop > 500) backTop.classList.add("show");
+      else backTop.classList.remove("show");
+    }
+    window.addEventListener("scroll", onScroll, { passive:true });
+    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+    /********************
+     * Reveal-on-scroll
+     ********************/
+    (function initReveal(){
+      const els = $$(".reveal-on");
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{
+          if (en.isIntersecting) en.target.classList.add("in");
+        });
+      }, { threshold: 0.14 });
+      els.forEach(el=>io.observe(el));
+    })();
+
+    /********************
+     * Age line (Dubai-based)
+     ********************/
+    (function setAgeLine(){
+      const age = computeAgeDubai(1999, 1, 30);
+      $("#ageLine").textContent = `Lubna turns ${age} (and somehow gets more beautiful)`;
+    })();
+
+    /********************
+     * Countdown (Dubai time)
+     ********************/
+    const cdDays = $("#cdDays");
+    const cdHours = $("#cdHours");
+    const cdMins = $("#cdMins");
+    const cdSecs = $("#cdSecs");
+    const todayLine = $("#todayLine");
+
+    function updateCountdown(){
+      const nowUTC = Date.now();
+      if (isDubaiBirthdayToday(1, 30)){
+        cdDays.textContent = "0";
+        cdHours.textContent = "0";
+        cdMins.textContent = "0";
+        cdSecs.textContent = "0";
+        todayLine.textContent = "Today is your day 💛 (Dubai time)";
+        return;
+      }
+
+      const targetUTC = nextBirthdayTargetUTC(1, 30);
+      let diff = Math.max(0, targetUTC - nowUTC);
+
+      const s = Math.floor(diff / 1000);
+      const days = Math.floor(s / (3600*24));
+      const hours = Math.floor((s % (3600*24)) / 3600);
+      const mins = Math.floor((s % 3600) / 60);
+      const secs = Math.floor(s % 60);
+
+      cdDays.textContent = String(days);
+      cdHours.textContent = pad2(hours);
+      cdMins.textContent = pad2(mins);
+      cdSecs.textContent = pad2(secs);
+
+      const parts = getDubaiParts();
+      todayLine.textContent = `Now in Dubai: ${pad2(parts.d)}-${pad2(parts.m)}-${parts.y} ${pad2(parts.hh)}:${pad2(parts.mm)}:${pad2(parts.ss)}`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /********************
+     * Midnight reveal (Dubai date)
+     ********************/
+    const revealMsg = $("#revealMsg");
+    const lockBadge = $("#lockBadge");
+    const revealHint = $("#revealHint");
+
+    function updateReveal(){
+      const unlocked = isDubaiBirthdayToday(1, 30);
+      if (unlocked){
+        revealMsg.classList.remove("blurred");
+        lockBadge.textContent = "✨ Unlocked";
+        revealHint.textContent = "It’s Jan 30 in Dubai. Happy Birthday, Lubna 💛";
+      } else {
+        revealMsg.classList.add("blurred");
+        lockBadge.textContent = "🔒 Locked";
+        revealHint.textContent = "This will automatically unlock when Dubai date becomes Jan 30.";
+      }
+    }
+
+    setInterval(updateReveal, 1500);
+    updateReveal();
+
+    /********************
+     * Memory lane placeholders
+     ********************/
+    const polaroidGrid = $("#polaroidGrid");
+
+    function makeSvgPlaceholder(label, seed){
+      const bg1 = "f7cfe3"; // pink
+      const bg2 = "d9d2ff"; // lavender
+      const bg3 = "fff6ea"; // cream
+      const t = encodeURIComponent(label);
+
+      const svg =
+`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="g${seed}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#${bg1}" stop-opacity="0.95"/>
+      <stop offset="0.55" stop-color="#${bg2}" stop-opacity="0.90"/>
+      <stop offset="1" stop-color="#${bg3}" stop-opacity="0.95"/>
+    </linearGradient>
+    <filter id="blur${seed}" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="800" height="1000" fill="url(#g${seed})"/>
+  <circle cx="160" cy="160" r="170" fill="#ffffff" opacity="0.22" filter="url(#blur${seed})"/>
+  <circle cx="660" cy="280" r="210" fill="#ffffff" opacity="0.20" filter="url(#blur${seed})"/>
+  <circle cx="420" cy="860" r="260" fill="#ffffff" opacity="0.18" filter="url(#blur${seed})"/>
+  <text x="50%" y="52%" text-anchor="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="44" font-weight="800" fill="rgba(20,20,25,0.72)">${label}</text>
+  <text x="50%" y="58%" text-anchor="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="22" font-weight="700" fill="rgba(20,20,25,0.55)">Replace with your photo</text>
+</svg>`;
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    // Replace these later with your real URLs
+    const photos = Array.from({length: 9}, (_, i) => makeSvgPlaceholder(`Photo ${i+1}`, i+1));
+    const captions = [
+      "That moment I realized I’m home.",
+      "Soft smiles, loud hearts.",
+      "A thousand little reasons.",
+      "The kind of calm I didn’t know I needed.",
+      "A simple day that felt like magic.",
+      "Where time forgot to rush.",
+      "You + me = my favorite place.",
+      "Small moments, forever memories.",
+      "Somehow, always more beautiful."
+    ];
+
+    function renderPolaroids(){
+      polaroidGrid.innerHTML = "";
+      photos.forEach((src, i) => {
+        const card = document.createElement("div");
+        card.className = "polaroid card soft";
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `Open photo ${i+1}`);
+
+        const img = document.createElement("img");
+        img.className = "photo";
+        img.src = src;
+        img.alt = `Photo ${i+1}`;
+
+        const cap = document.createElement("div");
+        cap.className = "cap";
+        cap.textContent = captions[i] || "";
+
+        card.appendChild(img);
+        card.appendChild(cap);
+
+        const open = () => openModal(src, cap.textContent);
+        card.addEventListener("click", open);
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+        });
+
+        polaroidGrid.appendChild(card);
+      });
+    }
+
+    renderPolaroids();
+
+    /********************
+     * Modal
+     ********************/
+    const modal = $("#modal");
+    const modalImg = $("#modalImg");
+    const modalCap = $("#modalCap");
+    const closeModal = $("#closeModal");
+
+    function openModal(src, cap){
+      modalImg.src = src;
+      modalCap.textContent = cap || "";
+      modal.classList.add("open");
+      closeModal.focus();
+    }
+    function shutModal(){
+      modal.classList.remove("open");
+      modalImg.src = "";
+    }
+    closeModal.addEventListener("click", shutModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) shutModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("open")) shutModal();
+      if (e.key === "Escape" && cinema.classList.contains("open")) closeCinemaOverlay();
+    });
+
+    /********************
+     * Music
+     ********************/
+    const audio = $("#audio");
+    const playBtn = $("#playBtn");
+    const musicLabel = $("#musicLabel");
+    const musicStatus = $("#musicStatus");
+    let playing = false;
+
+    function setMusicStatus(msg){ musicStatus.textContent = msg || ""; }
+
+    playBtn.addEventListener("click", async () => {
+      try{
+        if (!playing){
+          await audio.play();
+          playing = true;
+          playBtn.textContent = "⏸ Pause";
+          musicLabel.textContent = "Playing";
+          setMusicStatus("");
+        } else {
+          audio.pause();
+          playing = false;
+          playBtn.textContent = "▶ Play";
+          musicLabel.textContent = "Paused";
+        }
+      } catch (err){
+        playing = false;
+        playBtn.textContent = "▶ Play";
+        musicLabel.textContent = "Unavailable";
+        setMusicStatus("No worries — add a file named “song.mp3” next to this HTML later.");
+      }
+    });
+
+    audio.addEventListener("ended", () => {
+      playing = false;
+      playBtn.textContent = "▶ Play";
+      musicLabel.textContent = "Ended";
+    });
+
+    /********************
+     * Cinema overlay + typewriter sequence
+     ********************/
+    const cinema = $("#cinema");
+    const cinemaBtn = $("#cinemaBtn");
+    const closeCinema = $("#closeCinema");
+    const typeLine = $("#typeLine");
+
+    const lines = [
+      "I don’t say it enough…",
+      "But you changed my life.",
+      "Thank you for being you.",
+      "I love you."
+    ];
+
+    let typing = false;
+    let stopTyping = false;
+
+    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    async function typeText(text){
+      typeLine.textContent = "";
+      for (let i=0;i<text.length;i++){
+        if (stopTyping) return;
+        typeLine.textContent += text[i];
+        await sleep(22 + Math.random()*28);
+      }
+    }
+
+    async function runSequence(){
+      if (typing) return;
+      typing = true;
+      stopTyping = false;
+
+      for (let i=0;i<lines.length;i++){
+        if (stopTyping) break;
+        await typeText(lines[i]);
+        await sleep(900);
+      }
+      typing = false;
+    }
+
+    function openCinemaOverlay(){
+      cinema.classList.add("open");
+      runSequence();
+    }
+    function closeCinemaOverlay(){
+      stopTyping = true;
+      cinema.classList.remove("open");
+      typeLine.textContent = "";
+      typing = false;
+    }
+
+    cinemaBtn.addEventListener("click", openCinemaOverlay);
+    closeCinema.addEventListener("click", closeCinemaOverlay);
+    cinema.addEventListener("click", (e) => {
+      if (e.target === cinema) closeCinemaOverlay();
+    });
+
+    /********************
+     * Finale: Yes/No
+     ********************/
+    const yesBtn = $("#yesBtn");
+    const noBtn = $("#noBtn");
+    const toast = $("#toast");
+    const confetti = $("#confetti");
+    const choiceArea = $("#choiceArea");
+
+    function burstConfetti(){
+      confetti.innerHTML = "";
+      const pieces = 28;
+      for (let i=0;i<pieces;i++){
+        const p = document.createElement("i");
+        p.style.left = (Math.random()*100) + "%";
+        p.style.top = (-10 - Math.random()*80) + "px";
+        p.style.animationDelay = (Math.random()*0.7) + "s";
+        p.style.animationDuration = (1.3 + Math.random()*1.2) + "s";
+        p.style.transform = `rotate(${Math.random()*180}deg)`;
+        confetti.appendChild(p);
+      }
+      confetti.classList.add("show");
+      setTimeout(() => confetti.classList.remove("show"), 1600);
+    }
+
+    yesBtn.addEventListener("click", () => {
+      toast.textContent = "I knew it 😄";
+      burstConfetti();
+    });
+
+    function moveNoButton(){
+      const area = choiceArea.getBoundingClientRect();
+      // Keep within a playful boundary
+      const maxX = Math.max(0, area.width - noBtn.offsetWidth);
+      const maxY = Math.max(0, 80); // small vertical movement only
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.position = "relative";
+      noBtn.style.left = (x - maxX/2) + "px";
+      noBtn.style.top = (y - maxY/2) + "px";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("click", () => {
+      toast.textContent = "Try again 😌";
+      moveNoButton();
+    });
+
+    /********************
+     * Initial scroll state
+     ********************/
+    onScroll();
+  </script>
+</body>
+</html>
