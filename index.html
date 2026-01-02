@@ -409,7 +409,7 @@
       display:flex; align-items:center; gap:8px;
     }
 
-    /* Memory lane */
+    /* Memory lane / grids */
     .polaroid-grid{
       display:grid;
       grid-template-columns: repeat(2, 1fr);
@@ -445,6 +445,29 @@
       line-height: 1.35;
       min-height: 2.8em;
     }
+
+    /* Future image section */
+    .future-gallery{
+      margin-top: 14px;
+      display:grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px){
+      .future-gallery{ grid-template-columns: repeat(3, 1fr); }
+    }
+    .future-item{
+      padding: 10px;
+      border-radius: 22px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.62);
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .2s ease;
+      overflow:hidden;
+    }
+    .future-item:hover{ transform: translateY(-2px); }
+    .future-item .photo{ aspect-ratio: 4/5; }
+    .future-item .cap{ min-height: auto; }
 
     /* Modal */
     .modal{
@@ -546,30 +569,6 @@
       font-size: 14px;
       color: var(--muted);
       line-height: 1.55;
-    }
-
-    /* Music */
-    .music{
-      padding: 18px;
-      border-radius: 22px;
-      display:grid;
-      gap: 10px;
-    }
-    .music-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .music-note{
-      font-weight: 750;
-      color: rgba(27,27,31,.86);
-    }
-    .music-status{
-      font-size: 13px;
-      color: rgba(91,91,102,.95);
-      min-height: 18px;
     }
 
     /* Click-for-emotion overlay */
@@ -858,7 +857,7 @@
       </div>
     </section>
 
-    <!-- TIMELINE -->
+    <!-- TIMELINE + MOMENT -->
     <section>
       <div class="wrap grid two">
         <div class="reveal-on">
@@ -901,22 +900,7 @@
         </div>
 
         <div class="reveal-on">
-          <div class="card music soft" aria-label="Music section">
-            <span class="kicker"><i></i><span>Music & moments</span></span>
-            <h2 style="margin:6px 0 0;">One song. A hundred memories.</h2>
-            <p>Drop a file named <b>song.mp3</b> next to this HTML later (optional).</p>
-
-            <div class="music-row">
-              <button class="btn" id="playBtn" type="button" aria-label="Play or pause music">▶ Play</button>
-              <div class="music-note" id="musicLabel">Ready</div>
-            </div>
-            <div class="music-status" id="musicStatus"></div>
-            <audio id="audio" preload="none">
-              <source src="song.mp3" type="audio/mpeg" />
-            </audio>
-          </div>
-
-          <div class="card soft" style="margin-top:14px; padding:18px; border-radius:22px;">
+          <div class="card soft" style="padding:18px; border-radius:22px;">
             <span class="kicker"><i></i><span>Moment</span></span>
             <h2 style="margin-top:10px;">A tiny cinematic surprise</h2>
             <p>Tap the button when you’re ready.</p>
@@ -942,6 +926,27 @@
           <div class="fcard card soft">A home that feels like us.</div>
           <div class="fcard card soft">Growing old, still flirting.</div>
         </div>
+      </div>
+    </section>
+
+    <!-- FUTURE IMAGES -->
+    <section>
+      <div class="wrap">
+        <div class="grid two">
+          <div class="reveal-on">
+            <span class="kicker"><i></i><span>Future us</span></span>
+            <h2 style="margin-top:10px;">In every timeline, still us</h2>
+            <p>10 years, 30 years, a funny “5 kids” universe — all the versions I’d still pick.</p>
+          </div>
+          <div class="reveal-on">
+            <div class="card soft" style="padding:16px;border-radius:22px;">
+              <div style="font-weight:850;color:rgba(27,27,31,.86);">Tip</div>
+              <p style="margin-top:6px;">Upload your AI images into <b>assets/</b> and update the <b>futurePhotos[]</b> array in the JS.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="future-gallery reveal-on" id="futureGrid" aria-label="Future photo grid"></div>
       </div>
     </section>
 
@@ -1009,8 +1014,6 @@
     const DUBAI_OFFSET_MS = 4 * 60 * 60 * 1000;
 
     function dubaiNow(){
-      // Create a Date that represents "Dubai wall time" using UTC getters:
-      // by shifting current UTC milliseconds by +4h then reading as UTC.
       return new Date(Date.now() + DUBAI_OFFSET_MS);
     }
 
@@ -1018,7 +1021,7 @@
       const d = dubaiNow();
       return {
         y: d.getUTCFullYear(),
-        m: d.getUTCMonth() + 1, // 1-12
+        m: d.getUTCMonth() + 1,
         d: d.getUTCDate(),
         hh: d.getUTCHours(),
         mm: d.getUTCMinutes(),
@@ -1031,22 +1034,17 @@
     function computeAgeDubai(birthY=1999, birthM=1, birthD=30){
       const now = getDubaiParts();
       let age = now.y - birthY;
-      // If before birthday in Dubai this year, subtract 1
       if (now.m < birthM || (now.m === birthM && now.d < birthD)) age -= 1;
       return age;
     }
 
     function nextBirthdayTargetUTC(birthM=1, birthD=30){
-      // Target is Dubai midnight of Jan 30. Convert to UTC timestamp:
-      // Dubai midnight = UTC time minus 4 hours.
       const now = getDubaiParts();
       let targetYear = now.y;
 
       const isAfterOrOn = (now.m > birthM) || (now.m === birthM && now.d >= birthD);
-      // If already on/after birthday date in Dubai, next occurrence is next year
       if (isAfterOrOn) targetYear += 1;
 
-      // Dubai midnight (00:00) => UTC = (Dubai) - 4 hours
       const targetUTC = Date.UTC(targetYear, birthM - 1, birthD, 0, 0, 0) - DUBAI_OFFSET_MS;
       return targetUTC;
     }
@@ -1072,7 +1070,6 @@
         gate.style.display = "none";
         main.style.opacity = "1";
         main.style.transform = "translateY(0)";
-        // Focus for accessibility
         window.scrollTo({ top: 0, behavior: "smooth" });
       }, 520);
     }
@@ -1095,7 +1092,7 @@
     });
 
     /********************
-     * Particles (subtle)
+     * Particles
      ********************/
     (function initParticles(){
       const host = $("#particles");
@@ -1105,7 +1102,7 @@
       for (let i=0;i<count;i++){
         const s = document.createElement("span");
         const left = Math.random()*100;
-        const top = 90 + Math.random()*40; // start lower, drift up
+        const top = 90 + Math.random()*40;
         const dur = 7 + Math.random()*8;
         const delay = Math.random()*4;
         const size = 6 + Math.random()*8;
@@ -1154,7 +1151,7 @@
     })();
 
     /********************
-     * Age line (Dubai-based)
+     * Age line
      ********************/
     (function setAgeLine(){
       const age = computeAgeDubai(1999, 1, 30);
@@ -1162,7 +1159,7 @@
     })();
 
     /********************
-     * Countdown (Dubai time)
+     * Countdown
      ********************/
     const cdDays = $("#cdDays");
     const cdHours = $("#cdHours");
@@ -1203,7 +1200,7 @@
     updateCountdown();
 
     /********************
-     * Midnight reveal (Dubai date)
+     * Midnight reveal
      ********************/
     const revealMsg = $("#revealMsg");
     const lockBadge = $("#lockBadge");
@@ -1226,65 +1223,27 @@
     updateReveal();
 
     /********************
-     * Memory lane placeholders
+     * Memory lane (UPDATED to 6 images)
      ********************/
     const polaroidGrid = $("#polaroidGrid");
 
-    function makeSvgPlaceholder(label, seed){
-      const bg1 = "f7cfe3"; // pink
-      const bg2 = "d9d2ff"; // lavender
-      const bg3 = "fff6ea"; // cream
-      const t = encodeURIComponent(label);
-
-      const svg =
-`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
-  <defs>
-    <linearGradient id="g${seed}" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#${bg1}" stop-opacity="0.95"/>
-      <stop offset="0.55" stop-color="#${bg2}" stop-opacity="0.90"/>
-      <stop offset="1" stop-color="#${bg3}" stop-opacity="0.95"/>
-    </linearGradient>
-    <filter id="blur${seed}" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="18"/>
-    </filter>
-  </defs>
-  <rect width="800" height="1000" fill="url(#g${seed})"/>
-  <circle cx="160" cy="160" r="170" fill="#ffffff" opacity="0.22" filter="url(#blur${seed})"/>
-  <circle cx="660" cy="280" r="210" fill="#ffffff" opacity="0.20" filter="url(#blur${seed})"/>
-  <circle cx="420" cy="860" r="260" fill="#ffffff" opacity="0.18" filter="url(#blur${seed})"/>
-  <text x="50%" y="52%" text-anchor="middle"
-        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
-        font-size="44" font-weight="800" fill="rgba(20,20,25,0.72)">${label}</text>
-  <text x="50%" y="58%" text-anchor="middle"
-        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
-        font-size="22" font-weight="700" fill="rgba(20,20,25,0.55)">Replace with your photo</text>
-</svg>`;
-      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-    }
-
-    // Replace these later with your real URLs
+    // ✅ Only 6 images now
     const photos = [
-  "assets/1.jpeg",
-  "assets/2.jpeg",
-  "assets/3.jpeg",
-  "assets/1.jpeg",
-  "assets/2.jpeg",
-  "assets/3.jpeg",
-  "assets/1.jpeg",
-  "assets/2.jpeg",
-  "assets/3.jpeg"
-];
+      "assets/1.jpeg",
+      "assets/2.jpeg",
+      "assets/3.jpeg",
+      "assets/4.jpeg",
+      "assets/5.jpeg",
+      "assets/6.jpeg"
+    ];
 
     const captions = [
       "That moment I realized I’m home.",
       "Soft smiles, loud hearts.",
       "A thousand little reasons.",
       "The kind of calm I didn’t know I needed.",
-      "A simple day that felt like magic.",
-      "Where time forgot to rush.",
       "You + me = my favorite place.",
-      "Small moments, forever memories.",
-      "Somehow, always more beautiful."
+      "Small moments, forever memories."
     ];
 
     function renderPolaroids(){
@@ -1321,6 +1280,55 @@
     renderPolaroids();
 
     /********************
+     * Future images
+     ********************/
+    const futureGrid = $("#futureGrid");
+    const futurePhotos = [
+      "assets/future-10y.jpg",
+      "assets/future-30y.jpg",
+      "assets/future-5kids.jpg"
+    ];
+    const futureCaptions = [
+      "10 years later — still the same softness.",
+      "30 years later — still choosing you.",
+      "The 5 kids timeline (joking)… but still happy 😄"
+    ];
+
+    function renderFuture(){
+      if (!futureGrid) return;
+      futureGrid.innerHTML = "";
+      futurePhotos.forEach((src, i) => {
+        const item = document.createElement("div");
+        item.className = "future-item soft";
+        item.setAttribute("role", "button");
+        item.setAttribute("tabindex", "0");
+        item.setAttribute("aria-label", `Open future photo ${i+1}`);
+
+        const img = document.createElement("img");
+        img.className = "photo";
+        img.src = src;
+        img.alt = `Future photo ${i+1}`;
+
+        const cap = document.createElement("div");
+        cap.className = "cap";
+        cap.textContent = futureCaptions[i] || "";
+
+        item.appendChild(img);
+        item.appendChild(cap);
+
+        const open = () => openModal(src, cap.textContent);
+        item.addEventListener("click", open);
+        item.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+        });
+
+        futureGrid.appendChild(item);
+      });
+    }
+
+    renderFuture();
+
+    /********************
      * Modal
      ********************/
     const modal = $("#modal");
@@ -1342,52 +1350,9 @@
     modal.addEventListener("click", (e) => {
       if (e.target === modal) shutModal();
     });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("open")) shutModal();
-      if (e.key === "Escape" && cinema.classList.contains("open")) closeCinemaOverlay();
-    });
 
     /********************
-     * Music
-     ********************/
-    const audio = $("#audio");
-    const playBtn = $("#playBtn");
-    const musicLabel = $("#musicLabel");
-    const musicStatus = $("#musicStatus");
-    let playing = false;
-
-    function setMusicStatus(msg){ musicStatus.textContent = msg || ""; }
-
-    playBtn.addEventListener("click", async () => {
-      try{
-        if (!playing){
-          await audio.play();
-          playing = true;
-          playBtn.textContent = "⏸ Pause";
-          musicLabel.textContent = "Playing";
-          setMusicStatus("");
-        } else {
-          audio.pause();
-          playing = false;
-          playBtn.textContent = "▶ Play";
-          musicLabel.textContent = "Paused";
-        }
-      } catch (err){
-        playing = false;
-        playBtn.textContent = "▶ Play";
-        musicLabel.textContent = "Unavailable";
-        setMusicStatus("No worries — add a file named “song.mp3” next to this HTML later.");
-      }
-    });
-
-    audio.addEventListener("ended", () => {
-      playing = false;
-      playBtn.textContent = "▶ Play";
-      musicLabel.textContent = "Ended";
-    });
-
-    /********************
-     * Cinema overlay + typewriter sequence
+     * Cinema overlay + typewriter
      ********************/
     const cinema = $("#cinema");
     const cinemaBtn = $("#cinemaBtn");
@@ -1445,6 +1410,11 @@
       if (e.target === cinema) closeCinemaOverlay();
     });
 
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("open")) shutModal();
+      if (e.key === "Escape" && cinema.classList.contains("open")) closeCinemaOverlay();
+    });
+
     /********************
      * Finale: Yes/No
      ********************/
@@ -1477,9 +1447,8 @@
 
     function moveNoButton(){
       const area = choiceArea.getBoundingClientRect();
-      // Keep within a playful boundary
       const maxX = Math.max(0, area.width - noBtn.offsetWidth);
-      const maxY = Math.max(0, 80); // small vertical movement only
+      const maxY = Math.max(0, 80);
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
@@ -1501,8 +1470,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
