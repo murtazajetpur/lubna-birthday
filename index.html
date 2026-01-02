@@ -358,6 +358,91 @@
       font-size: 12px;
     }
 
+    /* Reveal card */
+    .reveal{
+      padding: 18px;
+      border-radius: 22px;
+      position:relative;
+      overflow:hidden;
+    }
+    .reveal .msg{
+      font-size: 18px;
+      line-height: 1.55;
+      color: rgba(27,27,31,.92);
+      font-weight: 650;
+    }
+    .blurred{ filter: blur(10px); opacity:.65; user-select:none; }
+    .locked-badge{
+      position:absolute; top: 14px; right: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.7);
+      font-weight: 750;
+      font-size: 12px;
+      display:flex; align-items:center; gap:8px;
+    }
+
+    /* Memory lane */
+    .polaroid-grid{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (min-width: 720px){
+      .polaroid-grid{ grid-template-columns: repeat(3, 1fr); }
+    }
+    .polaroid{
+      padding: 10px;
+      border-radius: 22px;
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .2s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .polaroid:hover{ transform: translateY(-2px) rotate(-.2deg); }
+    .photo{
+      width:100%;
+      aspect-ratio: 4/5;
+      border-radius: 18px;
+      border:1px solid var(--stroke);
+      object-fit: cover;
+      background: rgba(255,255,255,.6);
+      display:block;
+    }
+    .cap{
+      margin-top: 10px;
+      font-weight: 750;
+      color: rgba(27,27,31,.85);
+      font-size: 13px;
+      line-height: 1.35;
+      min-height: 2.4em;
+    }
+
+    /* Future image section */
+    .future-gallery{
+      margin-top: 14px;
+      display:grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px){
+      .future-gallery{ grid-template-columns: repeat(3, 1fr); }
+    }
+    .future-item{
+      padding: 10px;
+      border-radius: 22px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.62);
+      cursor:pointer;
+      transition: transform .18s ease, box-shadow .2s ease;
+      overflow:hidden;
+    }
+    .future-item:hover{ transform: translateY(-2px); }
+    .future-item .photo{ aspect-ratio: 4/5; }
+    .future-item .cap{ min-height: auto; }
+
     /* Modal */
     .modal{
       position:fixed; inset:0;
@@ -381,7 +466,9 @@
       transform: translateY(10px) scale(.98);
       animation: popIn .25s ease forwards;
     }
-    @keyframes popIn{ to{ transform: translateY(0) scale(1); } }
+    @keyframes popIn{
+      to{ transform: translateY(0) scale(1); }
+    }
     .modal-img{
       width:100%;
       height: min(70vh, 560px);
@@ -410,6 +497,55 @@
       font-weight: 800;
     }
 
+    /* Timeline */
+    .timeline{ margin-top: 14px; position:relative; padding-left: 18px; }
+    .timeline::before{
+      content:"";
+      position:absolute;
+      left: 8px; top: 6px; bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(247,207,227,.9), rgba(217,210,255,.9));
+      border-radius: 999px;
+      opacity:.85;
+    }
+    .step{
+      position:relative;
+      padding: 12px 12px 12px 16px;
+      margin: 10px 0;
+      border-radius: 18px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.62);
+    }
+    .step::before{
+      content:"";
+      position:absolute;
+      left: -2px; top: 18px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, rgba(247,207,227,.95), rgba(217,210,255,.95));
+      box-shadow: 0 0 18px rgba(217,210,255,.45);
+      border: 2px solid rgba(255,255,255,.9);
+    }
+    .step .date{
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(91,91,102,.9);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .step .title{
+      font-size: 16px;
+      font-weight: 850;
+      margin-top: 4px;
+      color: rgba(27,27,31,.9);
+    }
+    .step .desc{
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
     /* Click-for-emotion overlay */
     .cinema{
       position:fixed; inset:0; z-index: 80;
@@ -436,7 +572,9 @@
       transform: translateY(10px);
       animation: cinemaIn .25s ease forwards;
     }
-    @keyframes cinemaIn{ to{ transform: translateY(0); } }
+    @keyframes cinemaIn{
+      to{ transform: translateY(0); }
+    }
     .cinema-card h3{
       font-size: 18px;
       letter-spacing: .08em;
@@ -460,6 +598,66 @@
     .cinema-actions .btn{
       color: rgba(20,20,25,.9);
       background: rgba(255,255,255,.82);
+    }
+
+    /* Future cards */
+    .future{
+      display:grid;
+      gap: 12px;
+      margin-top: 14px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 740px){
+      .future{ grid-template-columns: repeat(5, 1fr); }
+    }
+    .fcard{
+      padding: 14px;
+      border-radius: 20px;
+      text-align:center;
+      font-weight: 850;
+      color: rgba(27,27,31,.86);
+      background: rgba(255,255,255,.62);
+      border:1px solid var(--stroke);
+    }
+
+    /* Finale */
+    .finale{
+      padding: 22px;
+      border-radius: 28px;
+      text-align:center;
+      overflow:hidden;
+      position:relative;
+    }
+    .finale h2{ margin-bottom: 10px; }
+    .choices{
+      margin-top: 14px;
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      flex-wrap: wrap;
+      position:relative;
+      min-height: 56px;
+    }
+    .choice-wrap{
+      position:relative;
+      width:min(420px, 100%);
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+    .signature{
+      margin-top: 18px;
+      font-weight: 750;
+      color: rgba(27,27,31,.82);
+      white-space: pre-line;
+    }
+    .toast{
+      margin-top: 12px;
+      font-weight: 750;
+      color: rgba(27,27,31,.85);
+      min-height: 22px;
     }
 
     /* Confetti (simple) */
@@ -495,15 +693,17 @@
 
     footer{ padding: 30px 0 60px; text-align:center; color: rgba(91,91,102,.9); font-size: 13px; }
 
-    /* ========= TIME GATING ========= */
-
-    /* Before Jan 30: hide everything that is after-bday */
-    .locked-mode .after-bday{ display:none !important; }
-
-    /* After Jan 30: hide countdown block completely */
-    .unlocked-mode .before-bday{ display:none !important; }
-
-    /* Note shown only in locked mode */
+    /* Locked mode (after password, before Jan 30) */
+    .locked-mode .after-bday{
+      display:none !important;
+    }
+    .locked-mode .countdown-only-note{
+      display:block !important;
+    }
+    /* Hide the HAPPY BIRTHDAY HERO entirely before Jan 30 */
+    .locked-mode .hero{
+      display:none !important;
+    }
     .countdown-only-note{
       display:none;
       margin-top: 10px;
@@ -515,9 +715,13 @@
       font-size: 13px;
       font-weight: 700;
     }
-    .locked-mode .countdown-only-note{ display:block !important; }
 
-    /* Birthday unlock animation burst */
+    /* Also remove countdown section after Jan 30 */
+    body:not(.locked-mode) .countdown-section{
+      display:none !important;
+    }
+
+    /* Birthday unlock sparkle burst layer */
     .unlock-burst{
       position: fixed;
       inset: 0;
@@ -540,15 +744,6 @@
       0%{ transform: translate3d(0,0,0) scale(.8); opacity:0; }
       20%{ opacity:1; }
       100%{ transform: translate3d(var(--dx), var(--dy), 0) scale(0); opacity:0; }
-    }
-
-    /* Extra: section “grand reveal” animation (runs once on unlock) */
-    .swap-in{
-      animation: riseIn .7s cubic-bezier(.2,.9,.2,1) both;
-    }
-    @keyframes riseIn{
-      from{ opacity:0; transform: translateY(14px) scale(.99); filter: blur(2px); }
-      to{ opacity:1; transform: translateY(0) scale(1); filter: blur(0); }
     }
 
     /* Reduced motion */
@@ -608,7 +803,7 @@
   <!-- Main -->
   <main id="main" style="opacity:0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease;">
 
-    <!-- HERO (NOW after-bday so hidden before Jan 30) -->
+    <!-- HERO (hidden before Jan 30 via locked-mode) -->
     <section class="hero after-bday">
       <div class="wrap">
         <div class="card hero-card soft reveal-on">
@@ -629,8 +824,8 @@
       </div>
     </section>
 
-    <!-- COUNTDOWN (NOW before-bday so it disappears after Jan 30) -->
-    <section class="before-bday" id="countdownSection">
+    <!-- COUNTDOWN ONLY SECTION (visible only before Jan 30; hidden after Jan 30) -->
+    <section class="countdown-section">
       <div class="wrap">
         <div class="card soft" style="padding:22px;border-radius:28px;" >
           <div class="reveal-on">
@@ -671,19 +866,27 @@
       </div>
     </section>
 
-    <!-- EVERYTHING BELOW IS after-bday -->
+    <!-- AFTER BDAY CONTENT -->
     <section class="after-bday">
-      <div class="wrap">
-        <div class="reveal-on">
+      <div class="wrap grid two">
+        <div class="card soft reveal-on" style="padding:22px;border-radius:28px;">
           <span class="kicker"><i></i><span>Midnight reveal</span></span>
           <h2 style="margin-top:10px;">A message that unlocks on Jan 30</h2>
-          <p>Now it’s finally time. 💛</p>
+          <p>If it’s not Jan 30 in Dubai yet, it stays a secret.</p>
 
-          <div class="card soft" style="padding:18px; border-radius:22px; margin-top:14px;">
-            <div style="font-size:18px; font-weight:750; color: rgba(27,27,31,.92);">
+          <div class="reveal card soft" style="margin-top:14px;">
+            <div class="locked-badge" id="lockBadge">🔒 Locked</div>
+            <div class="msg" id="revealMsg">
               Happy Birthday, Lubna. You make life feel softer, brighter, and worth celebrating.
             </div>
           </div>
+          <p class="tiny" id="revealHint">This will automatically unlock when Dubai date becomes Jan 30.</p>
+        </div>
+
+        <div class="card soft reveal-on" style="padding:22px;border-radius:28px;">
+          <span class="kicker"><i></i><span>Little note</span></span>
+          <h2 style="margin-top:10px;">For you</h2>
+          <p style="margin-top:6px;">This page is basically my way of saying: you matter… a lot. 💛</p>
         </div>
       </div>
     </section>
@@ -762,12 +965,12 @@
           <p>Nothing extra. Just everything that matters.</p>
         </div>
 
-        <div class="future reveal-on" aria-label="Future vision cards" style="display:grid; gap:12px; margin-top:14px; grid-template-columns:1fr;">
-          <div class="fcard card soft" style="padding:14px;border-radius:20px;text-align:center;font-weight:850;">More sunsets.</div>
-          <div class="fcard card soft" style="padding:14px;border-radius:20px;text-align:center;font-weight:850;">More silly laughter.</div>
-          <div class="fcard card soft" style="padding:14px;border-radius:20px;text-align:center;font-weight:850;">More adventures (even small ones).</div>
-          <div class="fcard card soft" style="padding:14px;border-radius:20px;text-align:center;font-weight:850;">A home that feels like us.</div>
-          <div class="fcard card soft" style="padding:14px;border-radius:20px;text-align:center;font-weight:850;">Growing old, still flirting.</div>
+        <div class="future reveal-on" aria-label="Future vision cards">
+          <div class="fcard card soft">More sunsets.</div>
+          <div class="fcard card soft">More silly laughter.</div>
+          <div class="fcard card soft">More adventures (even small ones).</div>
+          <div class="fcard card soft">A home that feels like us.</div>
+          <div class="fcard card soft">Growing old, still flirting.</div>
         </div>
       </div>
     </section>
@@ -790,24 +993,23 @@
     <!-- FINALE -->
     <section class="after-bday">
       <div class="wrap">
-        <div class="finale card soft reveal-on" style="padding:22px;border-radius:28px;text-align:center;overflow:hidden;position:relative;">
+        <div class="finale card soft reveal-on">
           <div class="confetti" id="confetti" aria-hidden="true"></div>
 
           <span class="kicker"><i></i><span>Finale</span></span>
           <h2 style="margin-top:10px;">Will you marry me? 💍</h2>
           <p>Okay, now don’t overthink. Just follow your heart 😄</p>
 
-          <div class="choices" style="margin-top:14px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative;min-height:56px;">
-            <div class="choice-wrap" id="choiceArea" style="position:relative;width:min(420px, 100%);display:flex;justify-content:center;gap:12px;align-items:center;flex-wrap:wrap;">
+          <div class="choices">
+            <div class="choice-wrap" id="choiceArea">
               <button class="btn primary" id="yesBtn" type="button">Yes</button>
               <button class="btn" id="noBtn" type="button">No</button>
             </div>
           </div>
 
-          <div class="toast" id="toast" aria-live="polite" style="margin-top:12px;font-weight:750;color: rgba(27,27,31,.85);min-height:22px;"></div>
+          <div class="toast" id="toast" aria-live="polite"></div>
 
-          <div class="signature" style="margin-top:18px;font-weight:750;color: rgba(27,27,31,.82);white-space:pre-line;">Always yours,
-Murtaza</div>
+          <div class="signature">Always yours,&#10;Murtaza</div>
         </div>
       </div>
     </section>
@@ -846,7 +1048,7 @@ Murtaza</div>
      * TEST TOGGLE
      ********************/
     // ✅ Set true to preview the full site (even before Jan 30 Dubai time)
-    let FORCE_AFTER_BDAY = true;
+    let FORCE_AFTER_BDAY = false;
 
     /********************
      * Simple helpers
@@ -991,10 +1193,9 @@ Murtaza</div>
      * Age line
      ********************/
     (function setAgeLine(){
-      const el = $("#ageLine");
-      if (!el) return;
       const age = computeAgeDubai(1999, 1, 30);
-      el.textContent = `Lubna turns ${age} (and somehow gets more beautiful)`;
+      const el = $("#ageLine");
+      if (el) el.textContent = `Lubna turns ${age} (and somehow gets more beautiful)`;
     })();
 
     /********************
@@ -1007,8 +1208,7 @@ Murtaza</div>
     const todayLine = $("#todayLine");
 
     function updateCountdown(){
-      if (!cdDays) return; // countdown not present? safe
-
+      if (!cdDays) return;
       const nowUTC = Date.now();
 
       if (isDubaiBirthdayToday(1, 30)){
@@ -1038,11 +1238,32 @@ Murtaza</div>
       todayLine.textContent = `Now in Dubai: ${pad2(parts.d)}-${pad2(parts.m)}-${parts.y} ${pad2(parts.hh)}:${pad2(parts.mm)}:${pad2(parts.ss)}`;
     }
 
-    let countdownInterval = setInterval(updateCountdown, 1000);
+    setInterval(updateCountdown, 1000);
     updateCountdown();
 
     /********************
-     * Time Gate + Unlock Animation
+     * Midnight reveal
+     ********************/
+    const revealMsg = $("#revealMsg");
+    const lockBadge = $("#lockBadge");
+    const revealHint = $("#revealHint");
+
+    function updateReveal(){
+      if (!revealMsg) return;
+      const unlocked = afterBirthdayGate();
+      if (unlocked){
+        revealMsg.classList.remove("blurred");
+        lockBadge.textContent = "✨ Unlocked";
+        revealHint.textContent = "It’s Jan 30 in Dubai. Happy Birthday, Lubna 💛";
+      } else {
+        revealMsg.classList.add("blurred");
+        lockBadge.textContent = "🔒 Locked";
+        revealHint.textContent = "This will automatically unlock when Dubai date becomes Jan 30.";
+      }
+    }
+
+    /********************
+     * Time Gate: Countdown-only before Jan 30
      ********************/
     const countdownNote = $("#countdownNote");
     const testChip = $("#testChip");
@@ -1052,9 +1273,8 @@ Murtaza</div>
     function sparkleBurst(){
       if (!unlockBurst) return;
       unlockBurst.innerHTML = "";
-
-      const cx = 0.5;
-      const cy = 0.30;
+      const cx = Math.random()*0.25 + 0.5; // around center
+      const cy = 0.30; // near countdown
       const baseX = window.innerWidth * cx;
       const baseY = window.innerHeight * cy;
 
@@ -1085,34 +1305,19 @@ Murtaza</div>
 
       if (unlocked){
         document.body.classList.remove("locked-mode");
-        document.body.classList.add("unlocked-mode");
         countdownNote && (countdownNote.style.display = "none");
 
-        // stop countdown updates once unlocked (optional)
-        if (countdownInterval){
-          clearInterval(countdownInterval);
-          countdownInterval = null;
-        }
-
-        // unlock animation only once
+        // sparkle unlock animation only once
         if (!hasUnlockedOnce){
           hasUnlockedOnce = true;
-
-          // sparkle burst
           setTimeout(sparkleBurst, 250);
-
-          // animate all after-bday sections once
-          const afterEls = $$(".after-bday");
-          afterEls.forEach((el, idx) => {
-            el.classList.add("swap-in");
-            el.style.animationDelay = (idx * 60) + "ms";
-          });
         }
       } else {
         document.body.classList.add("locked-mode");
-        document.body.classList.remove("unlocked-mode");
         countdownNote && (countdownNote.style.display = "block");
       }
+
+      updateReveal();
     }
 
     setInterval(applyTimeGate, 1500);
@@ -1149,6 +1354,7 @@ Murtaza</div>
         card.className = "polaroid card soft";
         card.setAttribute("role", "button");
         card.setAttribute("tabindex", "0");
+        card.setAttribute("aria-label", `Open photo ${i+1}`);
 
         const img = document.createElement("img");
         img.className = "photo";
@@ -1177,7 +1383,11 @@ Murtaza</div>
      * Future images
      ********************/
     const futureGrid = $("#futureGrid");
-    const futurePhotos = ["assets/future1.png","assets/future2.png","assets/future3.png"];
+    const futurePhotos = [
+      "assets/future1.png",
+      "assets/future2.png",
+      "assets/future3.png"
+    ];
     const futureCaptions = [
       "20 years later — still the same softness.",
       "40 years later — still choosing you.",
@@ -1192,6 +1402,7 @@ Murtaza</div>
         item.className = "future-item soft";
         item.setAttribute("role", "button");
         item.setAttribute("tabindex", "0");
+        item.setAttribute("aria-label", `Open future photo ${i+1}`);
 
         const img = document.createElement("img");
         img.className = "photo";
@@ -1234,8 +1445,8 @@ Murtaza</div>
       modal.classList.remove("open");
       modalImg.src = "";
     }
-    closeModal && closeModal.addEventListener("click", shutModal);
-    modal && modal.addEventListener("click", (e) => {
+    closeModal.addEventListener("click", shutModal);
+    modal.addEventListener("click", (e) => {
       if (e.target === modal) shutModal();
     });
 
@@ -1360,4 +1571,3 @@ Murtaza</div>
   </script>
 </body>
 </html>
-
