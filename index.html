@@ -871,9 +871,8 @@
       <div class="wrap grid two">
         <div class="card soft reveal-on" style="padding:22px;border-radius:28px;">
           <span class="kicker"><i></i><span>Midnight reveal</span></span>
-          
-          
 
+          <!-- (You removed lockBadge + revealHint in HTML, so JS must not assume they exist) -->
           <div class="reveal card soft" style="margin-top:14px;">
             <div class="msg" id="revealMsg">
               Happy Birthday, Lubna - My Future Wifey. I find myself falling more in love with you every single day. You are my greatest adventure and my favorite person. I can’t wait to celebrate every birthday for the rest of our lives by your side. I love you!.
@@ -1160,19 +1159,21 @@
       const scrollTop = doc.scrollTop || document.body.scrollTop;
       const height = (doc.scrollHeight - doc.clientHeight) || 1;
       const pct = Math.max(0, Math.min(1, scrollTop / height));
-      progressBar.style.width = (pct * 100).toFixed(2) + "%";
+      if (progressBar) progressBar.style.width = (pct * 100).toFixed(2) + "%";
 
+      if (!backTop) return;
       if (scrollTop > 500) backTop.classList.add("show");
       else backTop.classList.remove("show");
     }
     window.addEventListener("scroll", onScroll, { passive:true });
-    backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    backTop && backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
     /********************
      * Reveal-on-scroll
      ********************/
     (function initReveal(){
       const els = $$(".reveal-on");
+      if (!els.length) return;
       const io = new IntersectionObserver((entries)=>{
         entries.forEach(en=>{
           if (en.isIntersecting) en.target.classList.add("in");
@@ -1182,16 +1183,17 @@
     })();
 
     /********************
-     * Age line
+     * Age line (guarded)
      ********************/
     (function setAgeLine(){
-      const age = computeAgeDubai(1999, 1, 30);
       const el = $("#ageLine");
-      if (el) el.textContent = `Lubna turns ${age} (and somehow gets more beautiful)`;
+      if (!el) return;
+      const age = computeAgeDubai(1999, 1, 30);
+      el.textContent = `Lubna turns ${age} (and somehow gets more beautiful)`;
     })();
 
     /********************
-     * Countdown
+     * Countdown (guarded)
      ********************/
     const cdDays = $("#cdDays");
     const cdHours = $("#cdHours");
@@ -1200,18 +1202,19 @@
     const todayLine = $("#todayLine");
 
     function updateCountdown(){
-      if (!cdDays) return;
-      const nowUTC = Date.now();
+      // If you remove the countdown section, avoid crashing:
+      if (!cdDays || !cdHours || !cdMins || !cdSecs) return;
 
       if (isDubaiBirthdayToday(1, 30)){
         cdDays.textContent = "0";
         cdHours.textContent = "0";
         cdMins.textContent = "0";
         cdSecs.textContent = "0";
-        todayLine.textContent = "Today is your day 💛 (Dubai time)";
+        if (todayLine) todayLine.textContent = "Today is your day 💛 (Dubai time)";
         return;
       }
 
+      const nowUTC = Date.now();
       const targetUTC = nextBirthdayTargetUTC(1, 30);
       let diff = Math.max(0, targetUTC - nowUTC);
 
@@ -1226,36 +1229,43 @@
       cdMins.textContent = pad2(mins);
       cdSecs.textContent = pad2(secs);
 
-      const parts = getDubaiParts();
-      todayLine.textContent = `Now in Dubai: ${pad2(parts.d)}-${pad2(parts.m)}-${parts.y} ${pad2(parts.hh)}:${pad2(parts.mm)}:${pad2(parts.ss)}`;
+      if (todayLine){
+        const parts = getDubaiParts();
+        todayLine.textContent = `Now in Dubai: ${pad2(parts.d)}-${pad2(parts.m)}-${parts.y} ${pad2(parts.hh)}:${pad2(parts.mm)}:${pad2(parts.ss)}`;
+      }
     }
 
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    // Only run countdown interval if countdown exists
+    if (cdDays) {
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+    }
 
     /********************
-     * Midnight reveal
+     * Midnight reveal (FIXED)
+     * You trimmed lockBadge/revealHint from HTML, so we must null-check them.
      ********************/
     const revealMsg = $("#revealMsg");
-    const lockBadge = $("#lockBadge");
-    const revealHint = $("#revealHint");
+    const lockBadge = $("#lockBadge"); // may not exist now
+    const revealHint = $("#revealHint"); // may not exist now
 
     function updateReveal(){
       if (!revealMsg) return;
       const unlocked = afterBirthdayGate();
+
       if (unlocked){
         revealMsg.classList.remove("blurred");
-        lockBadge.textContent = "✨ Unlocked";
-        revealHint.textContent = "It’s Jan 30 in Dubai. Happy Birthday, Lubna 💛";
+        if (lockBadge) lockBadge.textContent = "✨ Unlocked";
+        if (revealHint) revealHint.textContent = "It’s Jan 30 in Dubai. Happy Birthday, Lubna 💛";
       } else {
         revealMsg.classList.add("blurred");
-        lockBadge.textContent = "🔒 Locked";
-        revealHint.textContent = "This will automatically unlock when Dubai date becomes Jan 30.";
+        if (lockBadge) lockBadge.textContent = "🔒 Locked";
+        if (revealHint) revealHint.textContent = "This will automatically unlock when Dubai date becomes Jan 30.";
       }
     }
 
     /********************
-     * Time Gate: Countdown-only before Jan 30
+     * Time Gate: Countdown-only before Jan 30 (guarded)
      ********************/
     const countdownNote = $("#countdownNote");
     const testChip = $("#testChip");
@@ -1265,8 +1275,9 @@
     function sparkleBurst(){
       if (!unlockBurst) return;
       unlockBurst.innerHTML = "";
+
       const cx = Math.random()*0.25 + 0.5; // around center
-      const cy = 0.30; // near countdown
+      const cy = 0.30;
       const baseX = window.innerWidth * cx;
       const baseY = window.innerHeight * cy;
 
@@ -1291,22 +1302,20 @@
     function applyTimeGate(){
       const unlocked = afterBirthdayGate();
 
-      // show test chip if forced
       if (FORCE_AFTER_BDAY && testChip) testChip.style.display = "inline-flex";
       else if (testChip) testChip.style.display = "none";
 
       if (unlocked){
         document.body.classList.remove("locked-mode");
-        countdownNote && (countdownNote.style.display = "none");
+        if (countdownNote) countdownNote.style.display = "none";
 
-        // sparkle unlock animation only once
         if (!hasUnlockedOnce){
           hasUnlockedOnce = true;
           setTimeout(sparkleBurst, 250);
         }
       } else {
         document.body.classList.add("locked-mode");
-        countdownNote && (countdownNote.style.display = "block");
+        if (countdownNote) countdownNote.style.display = "block";
       }
 
       updateReveal();
@@ -1352,6 +1361,20 @@
         img.className = "photo";
         img.src = src;
         img.alt = `Photo ${i+1}`;
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.onerror = () => {
+          // If asset path is wrong, show a friendly placeholder box instead of "disappearing"
+          img.style.display = "none";
+          const ph = document.createElement("div");
+          ph.className = "photo";
+          ph.style.display = "grid";
+          ph.style.placeItems = "center";
+          ph.style.color = "rgba(91,91,102,.85)";
+          ph.style.fontWeight = "800";
+          ph.textContent = "Image not found";
+          card.insertBefore(ph, card.firstChild);
+        };
 
         const cap = document.createElement("div");
         cap.className = "cap";
@@ -1400,6 +1423,19 @@
         img.className = "photo";
         img.src = src;
         img.alt = `Future photo ${i+1}`;
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.onerror = () => {
+          img.style.display = "none";
+          const ph = document.createElement("div");
+          ph.className = "photo";
+          ph.style.display = "grid";
+          ph.style.placeItems = "center";
+          ph.style.color = "rgba(91,91,102,.85)";
+          ph.style.fontWeight = "800";
+          ph.textContent = "Image not found";
+          item.insertBefore(ph, item.firstChild);
+        };
 
         const cap = document.createElement("div");
         cap.className = "cap";
@@ -1420,7 +1456,7 @@
     renderFuture();
 
     /********************
-     * Modal
+     * Modal (guarded)
      ********************/
     const modal = $("#modal");
     const modalImg = $("#modalImg");
@@ -1428,22 +1464,25 @@
     const closeModal = $("#closeModal");
 
     function openModal(src, cap){
+      // If assets path is wrong, still open modal with fallback text
+      if (!modal || !modalImg || !modalCap || !closeModal) return;
       modalImg.src = src;
       modalCap.textContent = cap || "";
       modal.classList.add("open");
       closeModal.focus();
     }
     function shutModal(){
+      if (!modal || !modalImg) return;
       modal.classList.remove("open");
       modalImg.src = "";
     }
-    closeModal.addEventListener("click", shutModal);
-    modal.addEventListener("click", (e) => {
+    closeModal && closeModal.addEventListener("click", shutModal);
+    modal && modal.addEventListener("click", (e) => {
       if (e.target === modal) shutModal();
     });
 
     /********************
-     * Cinema overlay + typewriter
+     * Cinema overlay + typewriter (guarded)
      ********************/
     const cinema = $("#cinema");
     const cinemaBtn = $("#cinemaBtn");
@@ -1463,6 +1502,7 @@
     function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
     async function typeText(text){
+      if (!typeLine) return;
       typeLine.textContent = "";
       for (let i=0;i<text.length;i++){
         if (stopTyping) return;
@@ -1472,7 +1512,7 @@
     }
 
     async function runSequence(){
-      if (typing) return;
+      if (typing || !typeLine) return;
       typing = true;
       stopTyping = false;
 
@@ -1485,13 +1525,14 @@
     }
 
     function openCinemaOverlay(){
+      if (!cinema) return;
       cinema.classList.add("open");
       runSequence();
     }
     function closeCinemaOverlay(){
       stopTyping = true;
-      cinema.classList.remove("open");
-      typeLine.textContent = "";
+      if (cinema) cinema.classList.remove("open");
+      if (typeLine) typeLine.textContent = "";
       typing = false;
     }
 
@@ -1502,12 +1543,12 @@
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.classList.contains("open")) shutModal();
-      if (e.key === "Escape" && cinema.classList.contains("open")) closeCinemaOverlay();
+      if (e.key === "Escape" && modal && modal.classList.contains("open")) shutModal();
+      if (e.key === "Escape" && cinema && cinema.classList.contains("open")) closeCinemaOverlay();
     });
 
     /********************
-     * Finale: Yes/No
+     * Finale: Yes/No (guarded)
      ********************/
     const yesBtn = $("#yesBtn");
     const noBtn = $("#noBtn");
@@ -1533,7 +1574,7 @@
     }
 
     yesBtn && yesBtn.addEventListener("click", () => {
-      toast.textContent = "I knew it 😄";
+      if (toast) toast.textContent = "I knew it 😄";
       burstConfetti();
     });
 
@@ -1552,7 +1593,7 @@
 
     noBtn && noBtn.addEventListener("mouseenter", moveNoButton);
     noBtn && noBtn.addEventListener("click", () => {
-      toast.textContent = "Try again 😌";
+      if (toast) toast.textContent = "Try again 😌";
       moveNoButton();
     });
 
@@ -1563,5 +1604,3 @@
   </script>
 </body>
 </html>
-
-
